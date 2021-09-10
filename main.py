@@ -14,7 +14,7 @@ from tqdm import tqdm
 parser = argparse.ArgumentParser()
 parser.add_argument('--K', type=int, default=51)
 parser.add_argument('--n_samples', type=str, default=1500)
-parser.add_argument('--model', type=str, default='pointnet2', choices=['pointnet', 'pointnet2', 'randlanet'])
+parser.add_argument('--model', type=str, default='randlanet', choices=['pointnet', 'pointnet2', 'randlanet'])
 args = parser.parse_args()
 
 dataset = LettucePointCloudDataset(files_dir='./data')
