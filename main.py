@@ -9,6 +9,11 @@ import multiprocessing as mp
 import time
 import argparse
 from tqdm import tqdm
+import os
+
+
+if not os.path.isdir('./data'):
+    raise Exception("./data dir does not exist.")
 
 
 parser = argparse.ArgumentParser()
