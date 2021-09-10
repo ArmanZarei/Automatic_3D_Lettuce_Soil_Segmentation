@@ -5,6 +5,7 @@ import os
 import open3d as o3d
 import numpy as np
 from utils import normalize_points
+import torch
 
 
 class LettucePointCloudDataset(Dataset):
@@ -19,6 +20,6 @@ class LettucePointCloudDataset(Dataset):
     def __getitem__(self, idx):
         f, f_path = self.files[idx]
         pcd = o3d.io.read_point_cloud(f_path)
-        points = np.array(pcd.points)
+        points = torch.from_numpy(np.array(pcd.points))
 
         return f, normalize_points(points)
