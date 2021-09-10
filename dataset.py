@@ -12,13 +12,14 @@ class LettucePointCloudDataset(Dataset):
     def __init__(self, files_dir):
         self.files = []
         for f in os.listdir(files_dir):
-            self.files.append(os.path.join(files_dir, f))
+            if f.endswith('.ply'):
+                self.files.append(os.path.join(files_dir, f))
     
     def __len__(self):
         return len(self.files)
     
     def __getitem__(self, idx):
         pcd = o3d.io.read_point_cloud(self.files[idx])
-        points = torch.from_numpy(np.array(pcd.points))
+        points = np.array(pcd.points)
 
         return self.files[idx], normalize_points(points)
