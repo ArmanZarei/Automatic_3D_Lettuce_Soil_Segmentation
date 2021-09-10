@@ -26,11 +26,14 @@ def get_model_output(model, input):
     
     raise Exception("Model should be of type PointNet or RandLANet or PointNet++ (PointNet2)")
 
-def knn(point, sampled_points, sampled_labels, K):
-    distances = torch.sqrt(torch.sum(torch.pow(sampled_points - point, 2), axis=1))
-    scores = torch.zeros(2)
-    for idx in torch.argsort(distances)[:K]:
-        scores[sampled_labels[idx]] += 1/distances[idx]
+def knn(point, sampled_points, sampled_labels, K, scored_knn=True):
+    distances = np.sqrt(np.sum(np.power(sampled_points - point, 2), axis=1))
 
-    #return torch.argmax(np.bincount(sampled_labels[np.argsort(distances)[:K]]))
+    if not scored_knn:
+        return np.argmax(np.bincount(sampled_labels[np.argsort(distances)[:K]]))
+
+    scores = np.zeros(2)
+    for idx in np.argsort(distances)[:K]:
+        scores[sampled_labels[idx]] += 1/(distances[idx]+1e-10)
+
     return scores.argmax()
