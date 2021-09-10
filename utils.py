@@ -10,7 +10,7 @@ def normalize_points(points):
 
     return points
 
-def get_model_output_and_loss(model, input, labels, calculate_loss=True):
+def get_model_output(model, input):
     """
     Returns the output of the model according to model type
     Parameters:
