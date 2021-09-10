@@ -24,3 +24,12 @@ def get_model_output(model, input):
         return model(input)
     
     raise Exception("Model should be of type PointNet or RandLANet or PointNet++ (PointNet2)")
+
+def knn(point, sampled_points, sampled_labels, K):
+    distances = np.sqrt(np.sum(np.power(sampled_points - point, 2), axis=1))
+    scores = np.zeros(2)
+    for idx in np.argsort(distances)[:K]:
+        scores[sampled_labels[idx]] += 1/distances[idx]
+
+    #return np.argmax(np.bincount(sampled_labels[np.argsort(distances)[:K]]))
+    return scores.argmax()
