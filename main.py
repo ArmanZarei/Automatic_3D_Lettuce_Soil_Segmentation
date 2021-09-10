@@ -23,6 +23,7 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 print(f'Device: {device}\n{"-"*15}')
 
 model = get_model(args.model, device)
+model.eval()
 
 print("Segmenting PointClouds...")
 for (f_path, points) in tqdm(dataset):
@@ -30,7 +31,7 @@ for (f_path, points) in tqdm(dataset):
     sampled_indices_lookup = set(sampled_indices)
     sampled_points = points[sampled_indices]
     sampled_labels = get_model_output(model, torch.from_numpy(sampled_points).float().unsqueeze(0).to(device)).argmax(1).squeeze().cpu().numpy()
-
+    
     labels = np.zeros(points.shape[0], dtype=int)
     labels[sampled_indices] = sampled_labels
 
