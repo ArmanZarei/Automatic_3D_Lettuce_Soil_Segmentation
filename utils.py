@@ -2,6 +2,7 @@ import numpy as np
 from models.pointnet2 import PointNet2
 from models.pointnet import PointNet
 from models.randlanet import RandLANet
+import torch
 
 
 def normalize_points(points):
@@ -26,10 +27,10 @@ def get_model_output(model, input):
     raise Exception("Model should be of type PointNet or RandLANet or PointNet++ (PointNet2)")
 
 def knn(point, sampled_points, sampled_labels, K):
-    distances = np.sqrt(np.sum(np.power(sampled_points - point, 2), axis=1))
-    scores = np.zeros(2)
-    for idx in np.argsort(distances)[:K]:
+    distances = torch.sqrt(torch.sum(torch.pow(sampled_points - point, 2), axis=1))
+    scores = torch.zeros(2)
+    for idx in torch.argsort(distances)[:K]:
         scores[sampled_labels[idx]] += 1/distances[idx]
 
-    #return np.argmax(np.bincount(sampled_labels[np.argsort(distances)[:K]]))
+    #return torch.argmax(np.bincount(sampled_labels[np.argsort(distances)[:K]]))
     return scores.argmax()
