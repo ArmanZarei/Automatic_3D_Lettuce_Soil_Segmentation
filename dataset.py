@@ -1,7 +1,10 @@
+from numpy.linalg.linalg import norm
+from utils import normalize_points
 from torch.utils.data import Dataset
 import os
 import open3d as o3d
 import numpy as np
+from utils import normalize_points
 
 
 class LettucePointCloudDataset(Dataset):
@@ -17,4 +20,4 @@ class LettucePointCloudDataset(Dataset):
         pcd = o3d.io.read_point_cloud(self.files[idx]['pcd_path'])
         points = np.array(pcd.points)
 
-        return points
+        return normalize_points(points)
