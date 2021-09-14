@@ -25,9 +25,10 @@ args = parser.parse_args()
 dataset = LettucePointCloudDataset(files_dir='./data')
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-print(f'Device: {device}\n{"-"*15}')
+print(f'Device: {device}')
 
 model = get_model(args.model, device)
+print(f'Model: {type(model).__name__}\n{"-"*15}')
 model.eval()
 
 print("Segmenting PointClouds...")

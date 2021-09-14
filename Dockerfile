@@ -12,8 +12,8 @@ RUN pip3 install torch-cluster -f https://pytorch-geometric.com/whl/torch-1.9.0+
 RUN pip3 install torch-spline-conv -f https://pytorch-geometric.com/whl/torch-1.9.0+cu102.html
 RUN pip3 install torch-geometric
 
-ADD . .
-
 RUN apt-get update && apt-get install -y libgl1
+
+ADD . .
 
 ENTRYPOINT ["python3", "./main.py"]
