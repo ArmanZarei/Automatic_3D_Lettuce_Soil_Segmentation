@@ -1,3 +1,4 @@
+from models.dgcnn import DGCNN
 import numpy as np
 from models.pointnet2 import PointNet2
 from models.pointnet import PointNet
@@ -21,7 +22,7 @@ def get_model_output(model, input):
     if isinstance(model, PointNet):
         outputs, _, _ = model(input)
         return outputs
-    elif isinstance(model, (RandLANet, PointNet2)):
+    elif isinstance(model, (RandLANet, PointNet2, DGCNN)):
         return model(input)
     
     raise Exception("Model should be of type PointNet or RandLANet or PointNet++ (PointNet2)")
@@ -48,6 +49,9 @@ def get_model(model_name, device):
     elif model_name == 'randlanet':
         model = RandLANet(d_in=3, num_classes=2, num_neighbors=16, decimation=4, device=device).to(device)
         model.load_state_dict(torch.load('./pretrained_models/RandLANet.pth', map_location=device))
+    elif model_name == 'dgcnn':
+        model = DGCNN(num_classes=2).to(device)
+        model.load_state_dict(torch.load('./pretrained_models/DGCNN.pth', map_location=device))
     else:
         raise Exception("invalid model.")
     
